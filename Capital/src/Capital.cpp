@@ -29,7 +29,10 @@ void ChangeCapitalFunc(const string& country, const string& new_capital, map<str
 }
 
 void RenameFunc (const string& old_country_name, const string& new_country_name, map<string,string>& c_info) {
-
+	if (c_info.find(old_country_name)->first == new_country_name) {
+		cout << "HUI";
+	} else
+		cout << "HEH";
 }
 
 void AboutFunc() {

@@ -22,24 +22,39 @@ void ChangeCapitalFunc(const string& country, const string& new_capital, map<str
 	}
 	else if (c_info.find(country)->second == new_capital)
 		cout << "Country " << country << " hasn't changed its capital" << endl;
-	else if (c_info.find(country)->second != new_capital)
+	else if (c_info.find(country)->second != new_capital) {
 		cout << "Country " << country << " has changed its capital from " << c_info[country] << " to " << new_capital << endl;
-
+		c_info[country]=new_capital;
+	}
 
 }
 
 void RenameFunc (const string& old_country_name, const string& new_country_name, map<string,string>& c_info) {
-	if (c_info.find(old_country_name)->first == new_country_name) {
-		cout << "HUI";
-	} else
-		cout << "HEH";
+	if (c_info.find(old_country_name)->first == new_country_name || c_info.find(old_country_name) == c_info.end() || c_info.find(new_country_name) != c_info.end()) {
+		cout << "Incorrect rename, skip " << endl;
+	} else {
+		cout << "Country " << old_country_name << " with capital " << c_info.find(old_country_name)->second << " has been renamed to " << new_country_name << endl;
+		string old;
+		old=c_info.find(old_country_name)->second;
+		c_info.erase(c_info.find(old_country_name));
+		c_info[new_country_name]=old;
+	}
 }
 
-void AboutFunc() {
-
+void AboutFunc(const string& country, map<string,string>& c_info) {
+		if (c_info.find(country) == c_info.end())
+			cout << "Country " << country << " doesn't exist " << endl;
+		else
+			cout << "Country " << country << " has capital " << c_info[country] << endl;
 }
 
-void DumpFunc() {
+void DumpFunc(const map<string,string>& c_info) {
+	if (c_info.size() == 0 )
+		cout << "There are no countries in the world " << endl;
+	else {
+		for (auto i : c_info)
+			cout << i.first << "/" << i.second << " ";
+	}
 
 }
 
@@ -63,10 +78,10 @@ int main() {
 	else if (action == "ABOUT") {
 		string country;
 		cin >> country;
-		AboutFunc();
+		AboutFunc(country,c_info);
 	}
 	else if (action == "DUMP")
-		DumpFunc();
+		DumpFunc(c_info);
 
 	}
 	return 0;

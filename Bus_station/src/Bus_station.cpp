@@ -32,49 +32,14 @@ void BusesForStopFunc (const map<string,vector<string>>& bus_map,const string& s
 	cout << endl;
 }
 
+
 void StopsForBus (map<string,vector<string>>& bus_map, const string& bus) {
-	map<string,vector<string>> interchange;  // pair   bus : station, station, station ...
 
-	if (bus_map.find(bus) == bus_map.end())
-		cout << "No bus" << endl;
-	else {
-	vector<string> station = bus_map[bus];    //поместил все остановки в вектор
-	vector<string> un_station;
-	for (auto st : station) { // начал перебирать элекменты вектора остановок
-
-		for ( auto i : bus_map) { // для каждого автобуса
-
-		  for (auto s : i.second) { // смотрю каждую из его остановок
-			if (st == s && i.first != bus) { // если остановка из списка икомого автобуса совпадает с остановкой другого автобуса то добавляем
-				un_station.push_back(i.first);
-				interchange[s]=un_station;
-			}
-		}
-		 if (interchange.size() == 0 )
-			cout << i.first << " : no interchange" << endl;
-		 else {
-		 for (auto i : interchange) {
-			cout << endl << "Stop " << i.first <<": ";
-			for (auto stop : i.second)
-				cout << " " << stop;
-		 }
-	  }
-	  un_station.clear();
-
-	}
-	}
-	if (interchange.size() == 0 && bus_map.find(bus) != bus_map.end())
-		cout << "No interchange";
-	else {
-		for (auto i : interchange) {
-			cout << endl << "Stop " << i.first <<": ";
-			for (auto stop : i.second)
-				cout << " " << stop;
-		}
-	}
-	}
 
 }
+
+
+
 
 void  AllBusesfunc (const map<string,vector<string>>& bus_map) {
 	if (bus_map.size() == 0)

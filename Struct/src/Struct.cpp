@@ -70,9 +70,11 @@ public:
 	 //добавить продолжение итерации, с сохранением всех изменений в вектор)
 	 vector<string> name_change;
 	 itr_name++;
+	 string name_c=name;
 	 for(; itr_name != person.rend(); itr_name++) {
-	 		if ((*itr_name).second[0] != "NO_NAME" && (*itr_name).second[0] != name) {
-	 			name_change.push_back((*itr_name).second[0]);
+	 		if ((*itr_name).second[0] != "NO_NAME" && (*itr_name).second[0] != name_c) {
+	 			name_c=(*itr_name).second[0];
+				name_change.push_back((*itr_name).second[0]);
 	 		}
 	 	 }
 	 unique(name_change.begin(),name_change.end());
@@ -85,9 +87,11 @@ public:
 	 //добавить продолжение итерации, с сохранением всех изменений в вектор)
 	 vector<string> surname_change;
 	 itr++;
+	 string surname_c=surname;
 	 for(; itr != person.rend(); itr++) {
-		 	if ((*itr).second[1] != "NO_SURNAME" && (*itr).second[1] != surname) {
-		 		surname_change.push_back((*itr).second[1]);
+		 	if ((*itr).second[1] != "NO_SURNAME" && (*itr).second[1] != surname_c) {
+		 		surname_c=(*itr).second[1];
+		  		surname_change.push_back((*itr).second[1]);
 
 		 	}
 	 }
@@ -98,9 +102,16 @@ public:
 	 else if (name == "" && surname != "") {
 		cout << surname;
 		if (surname_change.size() != 0) {
+			int size=surname_change.size();
+			size--;
 			cout << " (";
-			for (auto s : surname_change)
-				cout << s << " ";
+			for (auto s : surname_change) {
+				cout << s;
+				if (size != 0) {
+					cout << ", ";
+					size--;
+				}
+			}
 			cout <<")";
 		}
 		cout << " with unknown first name";
@@ -109,26 +120,48 @@ public:
 	 else if (name != "" && surname == "") {
 		 cout << name;
 		 if (name_change.size() != 0) {
-		 			cout << " (";
-		 			for (auto s : name_change)
-		 				cout << s << "";
+					int size=name_change.size();
+					size--;
+			 	 	cout << " (";
+		 			for (auto s : name_change) {
+		 				cout << s;
+		 				if (size != 0) {
+		 					cout << ", ";
+		 					size--;
+		 				}
+		 			}
 		 			cout <<")";
 		 		}
 		 cout << " with unknown last name";
 	 return "";
 	 }
- 	 cout << name << " ";
+ 	 cout << name;
  	 if (name_change.size() != 0) {
- 			cout << "(";
- 			for (auto s : name_change)
- 			cout << s << "";
- 	 cout <<") ";
+			int size=name_change.size();
+			size--;
+ 		 	cout << " (";
+ 			for (auto s : name_change) {
+ 				cout << s;
+				if (size != 0) {
+					cout << ", ";
+					size--;
+				}
+ 			}
+ 			cout <<")";
  	 }
- 	 cout << surname << "";
+ 	 cout << " " << surname;
  	if (surname_change.size() != 0) {
- 				cout << "(";
- 				for (auto s : surname_change)				//РАЗОБРАТЬСЯ С ЗАПЯТЫМИ!!!!!
- 					cout << s << "";
+ 				int size=surname_change.size();
+ 				size--;
+ 				cout << " (";
+ 				for (auto s : surname_change){
+ 					cout << s;
+ 					if (size != 0) {
+ 						cout << ", ";
+ 						size--;
+ 					}
+
+ 				}
  				cout <<")";
  		}
 
@@ -139,7 +172,7 @@ return "";
  string GetFullName(int year) {
 	 map<int,vector<string>>::iterator it;
 	 it=person.lower_bound(year);
-//	 cout << endl << it->first << endl;
+
 	 map<int,vector<string>>::reverse_iterator itr(it);
 	 if (it == person.begin()) {
 		 itr=person.rend();
@@ -154,21 +187,14 @@ return "";
 	 string surname="";
 
 	 map<int,vector<string>>::reverse_iterator itr_name=itr;
-//	 cout << endl << itr->first << endl;
+
 	 for(; itr_name != person.rend(); itr_name++) {
 		if ((*itr_name).second[0] != "NO_NAME") {
 			name = (*itr_name).second[0];
 			break;
 		}
 	 }
-	 //добавить продолжение итерации, с сохранением всех изменений в вектор)
-	 vector<string> name_change;
-	 itr_name++;
-	 for(; itr_name != person.rend(); itr_name++) {
-	 		if ((*itr_name).second[0] != "NO_NAME") {
-	 			name_change.push_back((*itr_name).second[0]);
-	 		}
-	 	 }
+
 
 	 for(; itr != person.rend(); itr++) {
 	 	if ((*itr).second[1] != "NO_SURNAME") {
@@ -176,67 +202,25 @@ return "";
 	 		break;
 	 	}
 	 }
-	 //добавить продолжение итерации, с сохранением всех изменений в вектор)
-	 vector<string> surname_change;
-	 itr++;
-	 for(; itr != person.rend(); itr++) {
-		 	if ((*itr).second[1] != "NO_SURNAME") {
-		 		surname_change.push_back((*itr).second[1]);
 
-		 	}
-	 }
-
- if (name == "" && surname == "")
+	 if (name == "" && surname == "")
 		 return "Incognito";
 	 else if (name == "" && surname != "") {
-		//string s="";
-		//s+=surname;
 		cout << surname;
-/*		if (surname_change.size() != 0) {
-			cout << " (";
-			for (auto s : surname_change)
-				cout << s << " ";
-			cout <<")";
-		}
 		cout << " with unknown first name";
-*/		//cout << surname_change.size();
 	 return "";
 	 }
 	 else if (name != "" && surname == "") {
-		// string s="";
 		 cout << name;
-/*		 if (name_change.size() != 0) {
-		 			cout << " (";
-		 			for (auto s : name_change)
-		 				cout << s << " ";
-		 			cout <<")";
-		 		}
 		 cout << " with unknown last name";
-*/	 return "";
+	 return "";
 	 }
  	 cout << name << " ";
- /*	 if (name_change.size() != 0) {
- 			cout << "(";
- 			for (auto s : name_change)
- 			cout << s << " ";
- 	 cout <<") ";
- 	 }
- */
- 	 cout << surname << " ";
-/*   if (surname_change.size() != 0) {
- 				cout << "(";
- 				for (auto s : surname_change)
- 					cout << s << " ";
- 				cout <<") ";
- 		}
-*/
- 	 //string s="";
- 	 //s+=name;
- 	 //s+=" ";
- 	 //s+=surname;
+ 	 cout << surname;
 
 return "";
  }
+
 private:
   map<int,vector<string>> person;
 
@@ -278,5 +262,6 @@ int main() {
 
   return 0;
 }
+
 
 
